@@ -1,6 +1,14 @@
 defmodule Chat.Message do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
+
+  def get_messages(limit \\ 20) do
+    Chat.Message
+    |> limit(^limit)
+    |> order_by(desc: :inserted_at)
+    |> Chat.Repo.all()
+  end
 
   schema "messages" do
     field :message, :string
